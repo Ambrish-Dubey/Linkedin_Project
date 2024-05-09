@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<form class="row g-3 needs-validation" action="{% url 'login' %}" method="post"
+  style="margin-left: 20%; margin-top: 5%;background-color: pink; width: 50%; padding-bottom: 5%;">
+  {% csrf_token %}
+  <!-- <div class="col-md-4 position-relative" style="width: 45%;">
+    <label for="fname" class="form-label">First name</label>
+    <input type="text" class="form-control" id="fname" name="fname" style="width: 60%;" required>
+    <div class="valid-tooltip">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-md-4 position-relative" style="width: 45%;">
+    <label for="lname" class="form-label">Last name</label>
+    <input type="text" class="form-control" id="lname" name="lname" style="width: 60%;" required>
+    <div class="valid-tooltip">
+      Looks good!
+    </div>
+  </div> -->
+  <div class="col-12 md-4 position-relative">
+    <label for="validationTooltipUsername" class="form-label">Email</label>
+    <div class="input-group has-validation" style="width: 30%;">
+      <span class="input-group-text" id="email">@</span>
+      <input type="email" class="form-control" id="username" name="username"
+        aria-describedby="validationTooltipUsernamePrepend" required>
+      <div class="invalid-tooltip">
+        Please choose a unique and valid email.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-3 position-relative" style="width: 32%;">
+    <label for="pass" class="form-label">Password</label>
+    <input type="password" class="form-control" id="pass" name="pass" required>
+    <div class="invalid-tooltip">
+      Please provide a valid password.
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Login</button>
+  </div>
+</form>
+{% endblock content %}

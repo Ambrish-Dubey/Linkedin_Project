@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+</head>
+
+<body>
+    {% extends "base.html" %}
+
+    {% block content %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+
+    <style>
+        #invoicerow {
+            background-color: red;
+            --bs-table-bg: #ffffff;
+            --bs-table-border-color: black;
+            --bs-border-color: black;
+            /* --bs-border-opacity: 0; */
+            border-color: black !important;
+            width: 75%;
+            margin-left: 10%;
+            text-align: center;
+            --bs-border-radius: 20px;
+        }
+
+        form
+        {
+            background-color: gainsboro;
+            margin-top: 5%;
+        }
+
+    </style>
+    
+    <form action="{% url 'create_invoice' %}" method="post">
+        {% csrf_token %}
+        <div class="row" style="padding-top: 3%;">
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label" for="invoicedate">Invoice date</label>
+                    <input type="date" class="form-label" name="invoice_date" id="invoicedate" style="margin-left: 9%; padding-right: 7%; text-align: center;">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label" for="invoicenumber">Invoice number</label>
+                    <input type="text" class="form-label" name="invoice_number" id="invoicenumber" style="margin-left: 5%;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label" for="cust_num" >Customer name</label>
+                    <input type="text" class="form-label" name="customer_number" id="cust_num" style="margin-left: 5%;">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label" for="due_date" >Due date</label>
+                    <input type="date" class="form-label" name="due_date" id="due_date" style="margin-left: 12%;">
+                </div>
+            </div>
+        </div>
+
+        <!-- <input type="text" hidden name="count" id="count" value="1"> -->
+
+
+
+        <button type="button" class="btn btn-primary" onclick="addrow()" style="margin-top: 2%;margin-bottom: 2%;">Click here to add row</button>
+
+        <button type="button" class="btn btn-primary" onclick="deleteRow()" style="margin-top: 2%;margin-bottom: 2%;">Click here to delete row</button>
+
+        <button type="submit" class="btn btn-primary" >Print Invoice</button>
+
+        <div class="count" ></div>
+
+        <table class="table table-bordered border-primary" id="invoicerow">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product name</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+
+            <tbody id="tbody">
+                <tr>
+                    <th scope="row">1</th>
+                    <td><input type="text" class="form-control" id="product_name1" name="product_name1" required></td>
+                    <td><input type="number" class="form-control" id="qty1" name="qty1" required></td>
+                    <td><input type="number" class="form-control" id="rate1" name="rate1" required></td>
+                    <td><input type="number" class="form-control" id="total1" name="total1" required></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </form>
+
+    <script>
+        let c = 1;
+
+        const tbody = document.querySelector('tbody');
+
+        const count = document.querySelector('.count');
+        
+
+        function addrow() {
+
+            if (c < 0) { c = 0; c++ };
+            c++;
+
+            const element = document.createElement('tr');
+            element.id = `row-${c}`;
+            element.className = 'btn-click-row';
+
+            element.innerHTML =
+                `
+                <th scope="row">${c}</th>
+                <tr><td><input type="text" class="form-control" id="product_name${c}" name="product_name${c}" required></td></tr>
+                <td><input type="number" class="form-control" id="qty${c}" name="qty${c}" required></td>
+                <td><input type="number" class="form-control" id="rate${c}" name="rate${c}" required></td>
+                <td><input type="number" class="form-control" id="total${c}" name="total${c}" required></td>
+                `;
+
+            tbody.appendChild(element);
+
+            count.innerHTML = `No of rows:-${c}`
+
+        }
+
+        function deleteRow() {
+
+            if (c > 1) { document.querySelector(`#row-${c}`).remove(); c--; count.innerHTML = `No of rows:-${c}`}
+            else { c = 0; c++ };
+
+        }
+
+
+    </script>
+
+    {% endblock content %}
+</body>
+
+</html>
